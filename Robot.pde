@@ -7,31 +7,54 @@ class Robot extends Enemy{
 	final int HAND_OFFSET_X_FORWARD = 64;
 	final int HAND_OFFSET_X_BACKWARD = 16;
   float speed = 2f;
+  
+  boolean checkX;
+  boolean checkY;
 
   Robot(float x, float y){
     super(x,y);
   }
   
   void display(){
-    int direction = (speed > 0) ? RIGHT : LEFT;
-      pushMatrix();
-        translate(x, y);
-        if (direction == RIGHT) {
-          scale(1, 1);
-          image(robot, 0, 0, w, h); 
-        } else {
-          scale(-1, 1);
-          image(robot, -w, 0, w, h); 
-        }
-      popMatrix();
+    pushMatrix();
+    translate(x, y);
+    if(speed!= 0){
+      int direction = (speed > 0 ) ? RIGHT : LEFT;
+          if (direction == RIGHT) {
+            scale(1, 1);
+            image(robot, 0, 0, w, h); 
+          } else {
+            scale(-1, 1);
+            image(robot, -w, 0, w, h); 
+          }
+        
+    }else if (player.x>x){
+            scale(1, 1);
+            image(robot, 0, 0, w, h);
+
+    }else{
+            scale(-1, 1);
+            image(robot, -w, 0, w, h); 
+    
+    }
+    popMatrix();
+    
   }
   void update(){
+    //if (checkY){
+    //  laser.display();
+    //}else{
     x += speed;
     if(x+w>=width || x<=0)speed*=-1;
-    if(player.y <= y+2*80 && player.y >= y-2*80){
+    if(player.y <= y+PLAYER_DETECT_RANGE_ROW*80 && player.y >= y-PLAYER_DETECT_RANGE_ROW*80){
       if((speed>=0 && player.x>x) || (speed<0 && player.x<x)){
         speed = 0;
-      }
+     
+        checkY = true;
+      
+    }
+      
+
 
     }
   }

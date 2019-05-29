@@ -21,13 +21,12 @@ class Dinosaur extends Enemy{
         }
       popMatrix();
   }
-  void update(){    
-    if(player.y == y ){
-      if((currentSpeed>0 && player.x>x) || (currentSpeed<0 && player.x<x ) ){
-        currentSpeed *= 2;
-      }
-    }
-    x += currentSpeed;
+  void update(){ 
+      if(player.y == y && (currentSpeed>0 && player.x>x) || (currentSpeed<0 && player.x<x ) ){
+        x += currentSpeed*TRIGGERED_SPEED_MULTIPLIER;
+    }else{
+      x += currentSpeed;
+  }
     if(x+w>=width || x<=0)currentSpeed*=-1; 
 
   }
